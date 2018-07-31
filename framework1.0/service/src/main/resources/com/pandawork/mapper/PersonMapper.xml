@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pandawork.mapper.PersonMapper">
+    <!--目的：为dao接口方法提供sql语句配置-->
+    <resultMap id="Person" type="com.pandawork.common.entity.Person" >
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="birthday" column="birthday"/>
+        <result property="department" column="department"/>
+        <result property="team" column="team"/>
+        <result property="comment" column="comment"/>
+    </resultMap>
+
+
+    <!-- 查询所有person -->
+    <select id="listAll" resultMap="Person">
+        select*from `t_person`
+    </select>
+    <!--增加person-->
+    <insert id="addPerson" >
+       insert into `t_person`
+       (`name`,`birthday`,
+       `department`,`team`,`comment`)
+       values (#{person.name},#{person.birthday},
+       #{person.department},#{person.team},#{person.comment})
+    </insert>
+
+    <!-- 删除person -->
+    <delete id="delPerson">
+        delete from `t_person` where `id`=#{id}
+    </delete>
+
+    <!-- 修改person -->
+    <update id="updatePerson">
+        update `t_person` set `name`=#{person.name},
+        `birthday`=#{person.birthday},
+        `department`=#{person.department},
+        `team`=#{person.team},
+        `comment`=#{person.comment}
+        where `id`=#{person.id}
+      </update>
+
+
+    <!-- 根据keyWord查找person -->
+    <select id="selectPerson" resultMap="Person">
+        select*from `t_person` where
+        `name` LIKE concat('%',#{keyWord},'%')
+        OR `birthday`LIKE CONCAT('%',"#{keyWord}",'%')
+        OR `department`LIKE CONCAT('%',"#{keyWord}",'%')
+        OR `team`LIKE CONCAT('%',"#{keyWord}",'%')
+        OR `comment`LIKE CONCAT('%',"#{keyWord}",'%')
+    </select>
+
+
+</mapper>
